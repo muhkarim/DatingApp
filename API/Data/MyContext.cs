@@ -12,6 +12,8 @@ namespace API.Data
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
         public DbSet<Value> Values { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
     }
 }
