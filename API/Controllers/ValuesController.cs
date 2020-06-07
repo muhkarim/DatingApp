@@ -23,6 +23,8 @@ namespace API.Controllers
             _myContext = myContext;
         }
 
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
