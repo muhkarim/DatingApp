@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.Data;
 using API.Helpers;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace API
 {
@@ -35,6 +37,12 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // untuk eror self looping data di api
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
             // untuk menyambungkan ke db
             services.AddDbContext<MyContext>
                (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -44,6 +52,8 @@ namespace API
 
             // add scope repository
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
+
 
             // add sett up jwt 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -57,6 +67,11 @@ namespace API
                         ValidateAudience = false
                     };
                 });
+
+            // add automapper
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
+
+           
 
 
             services.AddControllers();
