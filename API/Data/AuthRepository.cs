@@ -23,10 +23,10 @@ namespace API.Data
             if (user == null)
                 return null;
 
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return null;
+            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) // user.password connect dan berasal dari user.username
+                return null; // jika user tidak cocok return null 
 
-            return user;
+            return user; // jika username dan password cocok, login success dan return user
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -34,10 +34,12 @@ namespace API.Data
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
 
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for(int i = 0; i < computedHash.Length; i++)
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)); // password user dijadikan hash
+
+                for(int i = 0; i < computedHash.Length; i++) // cek setiap karakter password hash
                 {
-                    if (computedHash[i] != passwordHash[i]) return false;
+                    if (computedHash[i] != passwordHash[i]) // jika computed hash tidak cocok dengan passwordHast(yang ada di database)
+                        return false; // jika tidak cocok return false
                 }
 
                 return true;
@@ -47,8 +49,8 @@ namespace API.Data
 
         public async Task<User> Register(User user, string password)
         {
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            byte[] passwordHash, passwordSalt; // define passwordHash and passwordSalt to byte[]
+            CreatePasswordHash(password, out passwordHash, out passwordSalt); // buat password user menjadi Hash dan Salt
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;

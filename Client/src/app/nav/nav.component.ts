@@ -15,9 +15,9 @@ export class NavComponent implements OnInit {
     public authService: AuthService,
     private alertify: AlertifyService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   login() {
     this.authService.login(this.model).subscribe(
@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
         this.alertify.error('Gagal Login');
       },
       () => {
-        this.router.navigate(['/members']); // add new parameter in subscribe with no parameter
+        this.router.navigate(['/lists']); // add new parameter in subscribe with no parameter
       }
     );
   }
