@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -11,8 +11,17 @@ import { NgForm } from '@angular/forms';
 })
 export class MemberEditComponent implements OnInit {
 
-  user: User;
+
   @ViewChild('editForm', { static: true }) editForm: NgForm;
+
+  user: User;
+
+  @HostListener('window:beforeunload', ['$event']) // mencegah force close lewat tab browser menggunakan alert
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
