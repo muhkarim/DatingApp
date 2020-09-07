@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
@@ -48,6 +49,24 @@ namespace API.Controllers
 
             return Ok(userToReturn);
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized(); // jika id tidak sama maka unauthorized
+
+            var userFromRepo = await _datingRepository.GetUser(id);
+
+            _mapper.Map(userForUpdateDto, userFromRepo);
+
+            if (await _datingRepository.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating user {id} failed on save");
+        }
+
 
 
          
