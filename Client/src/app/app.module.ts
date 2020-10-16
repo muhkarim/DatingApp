@@ -31,16 +31,26 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes.guard';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import * as Hammer from 'hammerjs';
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
+// export class CustomHammerConfig extends HammerGestureConfig {
+//   overrides = {
+//     pinch: { enable: false },
+//     rotate: { enable: false }
+
+//   };
+// }
+
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
-    pinch: { enable: false },
-    rotate: { enable: false }
-
-  };
+    'pan': {
+      direction: Hammer.DIRECTION_ALL,
+    }
+  }
 }
 
 @NgModule({
@@ -84,6 +94,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
     MemberDetailResolver,
     MemberListResolver,
     MemberEditResolver,
+    // { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
     PreventUnsavedChanges
 
