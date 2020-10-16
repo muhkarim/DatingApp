@@ -13,19 +13,22 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov
 export class MemberDetailComponent implements OnInit {
 
   user: User;
+
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor(private userService: UserService, private alertify: AlertifyService,
-    private route: ActivatedRoute
-  ) { }
+  constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute, renderer: Renderer2) { }
+
+
 
   ngOnInit() {
-    // load data
+
+    // this.loadUser();
+
+    // tarik data menggunakan _resolver
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
-
 
     this.galleryOptions = [
       {
@@ -37,21 +40,26 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ];
-    this.galleryImages = this.getImages();
+
+    this.galleryImages = [];
+
   }
 
   getImages() {
     const imageUrls = [];
-    for (let i = 0; i < this.user.photos.length; i++) {
+    for (const photo of this.user.photos) {
       imageUrls.push({
-        small: this.user.photos[i].url,
-        medium: this.user.photos[i].url,
-        big: this.user.photos[i].url,
-        description: this.user.photos[i].description
+        small: photo.url,
+        medium: photo.url,
+        big: photo.url,
+        description: photo.description
       });
     }
     return imageUrls;
   }
+
+
+
 
   // ##### tarik data pakai cara biasa #######
 
