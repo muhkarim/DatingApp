@@ -19,7 +19,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  //===== di comment karena ada cara lebih mudah buat get tokken lewat app module  =====//
+  // ===== di comment karena ada cara lebih mudah buat get tokken lewat app module  =====//
+
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl + 'users', httpOptions);
   }
@@ -27,4 +28,10 @@ export class UserService {
   getUser(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/' + id, httpOptions);
   }
+
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + 'users/' + id, user);
+  }
+
 }
+

@@ -9,12 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   baseUrl = environment.apiUrl + 'auth/';
-
   jwtHelper = new JwtHelperService(); // add jwt helper
+  decodedToken: any;
 
-  decodeToken: any;
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(model: any) {
     return this.http.post(this.baseUrl + 'login', model).pipe(
@@ -22,8 +20,8 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token); // set token dan disimpan di inspect local storage (token jwt)
-          this.decodeToken = this.jwtHelper.decodeToken(user.token);
-          console.log(this.decodeToken);
+          this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          console.log(this.decodedToken);
         }
       })
     );

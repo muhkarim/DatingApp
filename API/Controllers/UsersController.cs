@@ -51,11 +51,13 @@ namespace API.Controllers
         }
 
 
+       
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized(); // jika id tidak sama maka unauthorized
+                return Unauthorized();
 
             var userFromRepo = await _datingRepository.GetUser(id);
 
@@ -69,7 +71,7 @@ namespace API.Controllers
 
 
 
-         
+
 
 
     }

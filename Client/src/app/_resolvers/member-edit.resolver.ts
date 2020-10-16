@@ -13,7 +13,7 @@ export class MemberEditResolver implements Resolve<User> {
 
     resolve(route: ActivatedRouteSnapshot): Observable<User> {
         // tslint:disable-next-line: no-string-literal
-        return this.userService.getUser(this.authService.decodeToken.nameid).pipe(
+        return this.userService.getUser(this.authService.decodedToken.nameid).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/members']);

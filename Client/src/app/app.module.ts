@@ -29,10 +29,11 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsave-changes.guard';
+import { JwtModule } from '@auth0/angular-jwt';
 
-// export function tokenGetter() {
-//   return localStorage.getItem('token');
-// }
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
@@ -66,14 +67,14 @@ export class CustomHammerConfig extends HammerGestureConfig {
 
     NgxGalleryModule,
 
-    // JwtModule.forRoot({
-    //   config: {
-    //     // tslint:disable-next-line: object-literal-shorthand
-    //     tokenGetter: tokenGetter,
-    //     whitelistedDomains: ['localhost:4200'],
-    //     blacklistedRoutes: ['localhost:44316/api/auth']
-    //   }
-    // })
+    JwtModule.forRoot({
+      config: {
+        // tslint:disable-next-line: object-literal-shorthand
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:44316'],
+        blacklistedRoutes: ['localhost:44316/api/auth']
+      }
+    })
   ],
   providers: [
     AuthService,

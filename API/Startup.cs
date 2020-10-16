@@ -71,8 +71,6 @@ namespace API
             // add automapper
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
-           
-
 
             services.AddControllers();
         }
