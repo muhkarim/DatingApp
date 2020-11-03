@@ -54,6 +54,10 @@ namespace API
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
 
+            // add cloudinary
+            // class cloudinary akan sama isinya dg configuration // getsection
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
 
             // add sett up jwt 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
