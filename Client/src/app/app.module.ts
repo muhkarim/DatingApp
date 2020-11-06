@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router'; // router
 // import { JwtModule } from '@auth0/angular-jwt'; // libary jwt client
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 
 
 import { AppComponent } from './app.component';
@@ -66,9 +67,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-
     NgxGalleryModule,
-
+    FileUploadModule,
     JwtModule.forRoot({
       config: {
         // tslint:disable-next-line: object-literal-shorthand
