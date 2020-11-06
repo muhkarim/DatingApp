@@ -114,6 +114,38 @@ namespace API.Controllers
 
             return BadRequest("Could not add the photo");
         }
-        
+
+
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+
+            // jika foto tidak ada
+            if (!user.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await _repo.GetPhoto(id);
+
+            // jika photo sudah isMain
+            if (photoFromRepo.IsMain)
+                return BadRequest("This is already the main photo");
+
+            // cari foto is main lalu isi false
+            var currentMainPhoto = await _repo.GetMainPhotoForUser(userId);
+            currentMainPhoto.IsMain = false;
+
+            // pilih foto yang akan dijadikan mainFoto, lalu isi true
+            photoFromRepo.IsMain = true;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Could not set photo to main");
+        }
+
     }
 }
