@@ -18,7 +18,8 @@ namespace API.Data
 
         public async Task<User> Login(string username, string password)
         {
-            var user = await _myContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+            // tambahin include photos, untuk memuat photourl saat di home.
+            var user = await _myContext.Users.Include(p=> p.Photos).FirstOrDefaultAsync(x => x.Username == username);
 
             if (user == null)
                 return null;
