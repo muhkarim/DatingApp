@@ -30,7 +30,7 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token); // set token dan disimpan di inspect local storage (token jwt)
-          localStorage.setItem('user', JSON.stringify(user.user)); // convert to string  
+          localStorage.setItem('user', JSON.stringify(user.user)); // convert to string
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser = user.user;
 
@@ -41,8 +41,8 @@ export class AuthService {
     );
   }
 
-  register(model: any) {
-    return this.http.post(this.baseUrl + 'register', model);
+  register(user: User) {
+    return this.http.post(this.baseUrl + 'register', user);
   }
 
   loggedIn() {
