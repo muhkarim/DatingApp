@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router'; // router
 // import { JwtModule } from '@auth0/angular-jwt'; // libary jwt client
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 
 import { AppComponent } from './app.component';
@@ -64,6 +66,8 @@ export class CustomHammerConfig extends HammerGestureConfig {
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
